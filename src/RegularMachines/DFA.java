@@ -25,22 +25,22 @@ public class DFA {
 	 ************************************************************/
 	
 	private String 								    name;
-	private HashSet<String> 						States;
+	private HashSet<State>	 						States;
 	private HashSet<String> 					    alphabet;
-	private HashMap<Tuple<String,String>,String>    delta;
-	private String 								    start;
-	private HashSet<String> 					 	accept;
+	private HashMap<Tuple<State,String>,State>    	delta;
+	private State 								    start;
+	private HashSet<State> 					 		accept;
 
 	/************************************************************
 	 * The class constructors                                   *
 	 ************************************************************/
 	
-	public DFA(String 								    name, 
-			   HashSet <String>                         States, 
-			   HashSet <String>                      alphabet, 
-			   HashMap <Tuple<String,String>,String> delta, 
-			   String                                   start, 
-			   HashSet<String>                          accept){
+	public DFA(String 									name, 
+			   HashSet <State>                          States, 
+			   HashSet <String>                  	    alphabet, 
+			   HashMap <Tuple<State,String>,State>	 	delta, 
+			   State                                   	start, 
+			   HashSet<State>                          	accept){
 		
 		this.name     = name;
 		this.States   = States;
@@ -50,11 +50,11 @@ public class DFA {
 		this.accept   = accept;
 	}
 	
-	public DFA(HashSet <String>                         String, 
+	public DFA(HashSet <State>                         	String, 
 			   HashSet <String>                         alphabet, 
-			   HashMap <Tuple<String,String>,String>    delta, 
-			   String                                   start, 
-			   HashSet<String>                          accept){
+			   HashMap <Tuple<State,String>,State>    	delta, 
+			   State                                   	start, 
+			   HashSet<State>                          	accept){
 		
 		this("M",String,alphabet,delta,start,accept);
 	}
@@ -67,7 +67,7 @@ public class DFA {
 		return this.name;
 	}
 	
-	public Set<String> getStates(){
+	public Set<State> getStates(){
 		return this.States;
 	}
 	
@@ -79,11 +79,11 @@ public class DFA {
 		return this.delta;
 	}
 	
-	public String getStart(){
+	public State getStart(){
 		return this.start;
 	}
 	
-	public Set<String> getAccept(){
+	public Set<State> getAccept(){
 		return this.accept;
 	}
 	

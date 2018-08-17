@@ -123,26 +123,20 @@ public class NFA {
 	public DFA DFAify(){
 		//TODO: Implement
 		return new DFA("", 
-				       new HashSet<String>(), 
+				       new HashSet<State>(), 
 				       new HashSet <String>(), 
-				       new HashMap <Tuple<String,String>,String>(), 
-				       "", 
-				       new HashSet<String>()
+				       new HashMap <Tuple<State,String>,State>(), 
+				       new State(), 
+				       new HashSet<State>()
 				      );
 	}
 	
 	/*
 	 * Creates the minimal DFA which recognizes the same language as this DFA. 
 	 * @return a new DFA object which is the minimal DFA that recognizes the language that this DFA recognizes.*/
-	public DFA minimize(){
+	public NFA minimize(){
 		//TODO: Implement
-		return new DFA("", 
-			       new HashSet<String>(), 
-			       new HashSet <String>(), 
-			       new HashMap <Tuple<String,String>,String>(), 
-			       "", 
-			       new HashSet<String>()
-			      );
+		return this;
 	}
 
 	/*
