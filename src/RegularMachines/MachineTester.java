@@ -1,106 +1,48 @@
 package RegularMachines;
-
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.stream.Collectors;
-
+/**
+ * The MachineTester class tests NFA and DFA objects. 
+ * @author Nick Klepp
+ * @version 1.0.0
+ * @since 8/13/18
+ * 
+ * */
+//Note: The Java unicode escape character for the lower case epsilon symbol is '\u03B5'
 public class MachineTester {
-
-	/*
-	 * Static function to make a set of states from a variable number of string inputs
-	 * @param states a variable number of String inputs
-	 * @return a HashSet containing states named after the String inputs*/
-	public static HashSet<State> mkStateSet(String...states){
-		ArrayList<String> stateNames1 = new ArrayList<String>(){{add("1");add("2");}};
-		HashSet<State> states1 = new HashSet<State>(
-			stateNames1.stream().map(
-				x->new State(x)
-			).collect(Collectors.toList())
-		);
-		return states1;
-	}
-	
-	/*
-	 * Static function to make an alphabet from a variable number of string inputs
-	 * @param chars a variable number of String inputs
-	 * @return a HashSet containing the String inputs*/
-	public static HashSet<String> mkAlphabet(String...chars){
-		return new HashSet<String>(Arrays.asList(chars));
-	}
-	
-	/*
-	 * Static function to make a transition function from a variable number of string inputs
-	 * @param tr a variable number of triples of type <String,String,String>
-	 * @return a HashMap of type <Tuple<State,String>,String> made from the String inputs*/
-	public static HashMap<Tuple<State,String>,State> mkDelta(Triple<String,String,String>...tr){	
-		Tuple<Tuple<State,String>,State>[] array = 
-				(Tuple<Tuple<State, String>, State>[]) Arrays.stream(tr).map(
-		            x -> new Tuple<>(
-		                    new Tuple<>(
-		                            new State(x.t()), x.u()),
-		                    new State(x.v())))
-		            .toArray(Tuple[]::new);
-		HashMap<Tuple<State,String>,State> m = new HashMap<>();
-		Arrays.stream(array).forEach(x->m.put(x.t(),x.u()));
-		return m;
-	}
 	
 	public static void main(String[] args){
 		
-		/************************************************
-		 * We'll make two DFAs:                         *
-		 *                                              *
-		 * M1=({1,2},{0,1},d,1,{1})                     *
-		 * where d(1,0)=d(1,1)=d(2,0)=d(2,1)=1          *
-		 * and                                          *
-		 * M2=({1,2},{0,1},d,1,{1})                     *
-		 * where d(1,0)=d(1,1)=d(2,0)=d(2,1)=2          *
-		 ************************************************/
+		///************************************************
+		//* We'll make two DFAs:                         *
+		//*                                              *
+		//* M1=({1,2},{0,1},d,1,{1})                     *
+		//* where d(1,0)=d(1,1)=d(2,0)=d(2,1)=1          *
+		//* and                                          *
+		//* M2=({1,2},{0,1},d,1,{1})                     *
+		//* where d(1,0)=d(1,1)=d(2,0)=d(2,1)=2          *
+		//************************************************/
 		
-		//Making states 
-		HashSet states = mkStateSet("1","2");
-		HashSet alph   = mkAlphabet("0","1");
-		State   start  = new State("1"); 
-		HashSet accept = mkStateSet("1");
-
-		//Making transition functions
-		HashMap<Tuple<String,String>,String> d1 = new HashMap<Tuple<String,String>,String>();
-		HashMap<Tuple<String,String>,String> d2 = new HashMap<Tuple<String,String>,String>();
+		String[] accept = {"1"};
 		
-		/*Object[] ttrips1 = {
-			new Triple<String,String,String>("1","0","1"),
-			new Triple<String,String,String>("1","1","1"),
-		 	new Triple<String,String,String>("2","0","1"),
-		 	new Triple<String,String,String>("2","1","1")};
-		Triple<String,String,String>[] trips1 = (Triple<String,String,String>[])ttrips1;
+		DFA m1 = new DFA("m1",
+						 "1",
+						 accept,
+						 new Triple<String,String,String>("1","0","1"),
+						 new Triple<String,String,String>("1","1","1"),
+						 new Triple<String,String,String>("2","0","1"),
+						 new Triple<String,String,String>("2","0","1"));
 		
-		Object[] ttrips2 = {
-			new Triple<String,String,String>("1","0","2"),
-			new Triple<String,String,String>("1","1","2"),
-			new Triple<String,String,String>("2","0","2"),
-			new Triple<String,String,String>("2","1","2")};
-		Triple<String,String,String>[] trips2 = (Triple<String,String,String>[])ttrips2;*/
-		
-		HashMap<Tuple<State,String>,State> delta1 = mkDelta(
-				new Triple<String,String,String>("1","0","1"),
-				new Triple<String,String,String>("1","1","1"),
-				new Triple<String,String,String>("2","0","1"),
-				new Triple<String,String,String>("2","0","1")
-				);
-		HashMap<Tuple<State,String>,State> delta2 = mkDelta(
-				new Triple<String,String,String>("1","0","2"),
-				new Triple<String,String,String>("1","1","2"),
-				new Triple<String,String,String>("2","0","2"),
-				new Triple<String,String,String>("2","0","2")
-				);
-		//HashMap<Tuple<State,String>,State> delta2 = mkDelta(trips2);
-						
-		HashSet<String> fin1 = new HashSet<String>(Arrays.asList());
-				
-		DFA m1 = new DFA("m1",states,alph,delta1,start,accept);
-		DFA m2 = new DFA("m1",states,alph,delta2,start,accept);
+		DFA m2 = new DFA("m1",
+						 "2",
+						 accept,
+						 new Triple<String,String,String>("1","0","2"),
+						 new Triple<String,String,String>("1","1","2"),
+						 new Triple<String,String,String>("2","0","2"),
+						 new Triple<String,String,String>("2","0","2"));
 		
 		NFA m3 = new NFA();
 		NFA m4 = new NFA();
